@@ -32,33 +32,28 @@ describe('actions', () => {
     expect(result).toEqual(expectedAction);    
     });
 
-    it.skip('should have a type of "ADD_MESSAGE"', () => {
-        const mockUser = true
-        const mockMsg = "Hi there, my name is Dr. Watson.";
-        const mockMessages2 = [{}, {}]
-        const mockMessages = 
-          {type: 'ADD_MESSAGE',
-          messages: [...mockMessages2, { isUser: mockUser }, {message: mockMsg}, {message: mockMsg, isUser: mockUser}]}
-        
-        const expectedAction = {
-          type: 'ADD_MESSAGE',
-          messages: mockMessages
-        }
+    it('should have a type of ADD_MESSAGE', () => {
+      let mockMsg = "Hi there, my name is Dr. Watson."
+      let mockIsUser = false;
+      const mockMessages = [[], {}]
+      let expected = {
+        type: 'ADD_MESSAGE',
+        messages: [...mockMessages, { 
+          message: mockMsg,
+          isUser: mockIsUser }]
+      }
+
+      const result = actions.addMessage(mockMessages, mockMsg, mockIsUser);
+      expect(result).toEqual(expected);
+    })
     
-    const result = actions.addMessage(mockMessages, mockMsg, mockUser);
-    console.log(result)
-    expect(result).toEqual(expectedAction);
-    });
-    
-    it.skip('should have a type of REMOVE_MESSAGES', () => {
-        const mockMessages = [];
+    it('should have a type of REMOVE_MESSAGES', () => {
+        const messages = [];
         const expectedAction = {
-            type: 'REMOVE_MESSAGES',
-            messages: mockMessages
+            type: 'REMOVE_MESSAGES'
         };
 
-    const result = actions.removeMessages();
-    console.log(result)
+    const result = actions.removeMessages(messages);
     expect(result).toEqual(expectedAction);    
     });
 });    
