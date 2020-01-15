@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createUser, hasErrored } from '../../actions'
 import { startConversation } from '../../apiCalls';
-import './WelcomeModal.css'
+import './WelcomeModal.css';
 
 export class WelcomeModal extends Component {
   constructor() {
@@ -14,23 +14,27 @@ export class WelcomeModal extends Component {
       feeling: '',
       error: '',
     }
-  }
+  };
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value, error: '' });
-  }
+  };
 
   handleSubmit = e => {
     const { firstName, lastName, feeling } = this.state;
     e.preventDefault();
-    this.props.createUser({
-      id: Date.now(),
-      firstName,
-      lastName,
-      feeling,
-    });
-    this.connectToChatBot();
-  }
+    if(firstName && lastName && feeling) {
+      this.props.createUser({
+        id: Date.now(),
+        firstName,
+        lastName,
+        feeling,
+      });
+      this.connectToChatBot();
+    } else {
+      this.setState({ error: 'Please make sure that you filled everything out.' })
+    }; 
+  };
 
   connectToChatBot = async () => {
     try {
@@ -39,7 +43,7 @@ export class WelcomeModal extends Component {
     } catch({ message }) {
       this.props.hasErrored(message);
     }
-  }
+  };
 
   render() {
     const { firstName, lastName, feeling, error } = this.state;
@@ -73,8 +77,8 @@ export class WelcomeModal extends Component {
         </button>
       </form>
     )
-  }
-}
+  };
+};
 
 export const mapDispatchToProps = dispatch => bindActionCreators({ createUser, hasErrored }, dispatch)
 
